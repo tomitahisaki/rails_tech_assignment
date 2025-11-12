@@ -15,7 +15,7 @@ class UserTest < ActiveSupport::TestCase
   test "異常系: メールアドレスが空欄" do
     user = User.new(email: "", password: "password", password_confirmation: "password")
     assert_not user.valid?
-    assert_includes user.errors[:email], "can't be blank"
+    assert_includes user.errors[:email], "を入力してください"
   end
 
   test "異常系: メールアドレスが重複" do
@@ -26,12 +26,12 @@ class UserTest < ActiveSupport::TestCase
       password_confirmation: "anotherpassword"
     )
     assert_not duplicate_email_user.valid?
-    assert_includes duplicate_email_user.errors[:email], "has already been taken"
+    assert_includes duplicate_email_user.errors[:email], "はすでに存在します"
   end
 
   test "異常系: パスワードが空欄（新規作成時）" do
     user = User.new(email: "test@example.com", password: "", password_confirmation: "")
     assert_not user.valid?
-    assert_includes user.errors[:password], "can't be blank"
+    assert_includes user.errors[:password], "を入力してください"
   end
 end
