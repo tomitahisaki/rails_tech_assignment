@@ -1,0 +1,12 @@
+<h1>写真一覧</h1>
+
+<% @photos.each do |photo| %>
+  <div class="photo-card">
+    <% if photo.image.attached? %>
+      <%= image_tag photo.image, width: 300, height: 200 %>
+    <% else %>
+      <p>画像がありません</p>
+    <% end %>
+    <p><strong><%= photo.title %></strong></p>
+  </div>
+<% end %>
