@@ -27,5 +27,16 @@
 #       "yes": yup
 #       enabled: "ON"
 
-en:
-  hello: "Hello world"
+ja:
+  activerecord:
+    model:
+      user:
+    attributes:
+      user:
+        email: メールアドレス
+        passsword: パスワード
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: を入力してください
+      taken: はすでに存在します
