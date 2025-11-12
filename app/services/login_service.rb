@@ -8,18 +8,18 @@ class LoginService
 
   validates :email,    presence: true
   validates :password, presence: true
+  validate :authenticate_user
 
-  def execute
-    return false unless valid?
+  private
+
+  def authenticate_user
+    return if email.blank? || password.blank?
 
     normalized = email.to_s.strip.downcase
     @user = User.find_by(email: normalized)
 
-    if @user&.authenticate(password)
-      true
-    else
+    unless @user&.authenticate(password)
       errors.add(:base, "メールアドレスまたはパスワードが違います")
-      false
     end
   end
 end
