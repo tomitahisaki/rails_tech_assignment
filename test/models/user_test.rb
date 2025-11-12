@@ -34,4 +34,14 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
     assert_includes user.errors[:password], "を入力してください"
   end
+
+  test "メールアドレスの正規化: 保存前に小文字化される" do
+    user = User.create!(
+      email: "  TEST@Example.COM  ",
+      password: "password",
+      password_confirmation: "password"
+    )
+
+    assert_equal "test@example.com", user.email
+  end
 end
