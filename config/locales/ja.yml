@@ -35,6 +35,11 @@ ja:
       user:
         email: メールアドレス
         passsword: パスワード
+  activemodel:
+    attributes:
+      login_service:
+        email: メールアドレス
+        password: パスワード
   errors:
     format: "%{attribute}%{message}"
     messages:
