@@ -16,8 +16,12 @@
   </div>
 <% end %>
 
-<% if flash[:alert] %>
-  <p style="color:red;"><%= flash[:alert] %></p>
+<% if @errors.present? %>
+  <ul style="color:red;">
+    <% @errors.each do |error_message| %>
+      <li><%= error_message %></li>
+    <% end %>
+  </ul>
 <% end %>
 
 <% if flash[:notice] %>

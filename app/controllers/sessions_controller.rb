@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       session[:user_id] = login_service.user.id
       redirect_to photos_path, notice: "ログインしました"
     else
-      flash.now[:alert] = login_service.errors.full_messages.to_sentence
+      @errors = login_service.errors.full_messages
       render :new, status: 422
     end
   end
