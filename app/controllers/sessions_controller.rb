@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
     if login_service.valid?
       session[:user_id] = login_service.user.id
-      redirect_to root_path, notice: "ログインしました"
+      redirect_to photos_path, notice: "ログインしました"
     else
       flash.now[:alert] = login_service.errors.full_messages.to_sentence
       render :new, status: 422

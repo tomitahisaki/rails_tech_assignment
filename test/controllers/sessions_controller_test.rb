@@ -12,7 +12,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "POST /login 成功の場合" do
     post login_path, params: { email: @user.email, password: "password123" }
     assert_response 302
-    assert_redirected_to root_path
+    assert_redirected_to photos_path
   end
 
   test "POST /login 失敗の場合" do
