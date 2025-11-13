@@ -1,5 +1,9 @@
 <h1>写真一覧</h1>
 
+<div style="margin-bottom:12px;">
+  <%= button_to "ログアウト", logout_path, method: :delete, class: "btn btn-outline-danger" %>
+</div>
+
 <% @photos.each do |photo| %>
   <div class="photo-card">
     <% if photo.image.attached? %>
