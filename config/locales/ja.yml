@@ -31,10 +31,14 @@ ja:
   activerecord:
     model:
       user:
+      photo:
     attributes:
       user:
         email: メールアドレス
         passsword: パスワード
+      photo:
+        title: タイトル
+        image: 画像
   activemodel:
     attributes:
       login_service:

@@ -1,0 +1,26 @@
+<h1>写真をアップロード</h1>
+
+<% if @errors.present? %>
+  <ul style="color:red;">
+    <% @errors.each do |error_message| %>
+      <li><%= error_message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @photo, url: photos_path, local: true, html: { multipart: true } do |f| %>
+  <div style="margin-bottom:12px;">
+    <%= f.label :title, "タイトル（30文字まで）" %><br>
+    <%= f.text_field :title, style: "width: 100%; max-width: 420px;" %>
+  </div>
+
+  <div style="margin-bottom:12px;">
+    <%= f.label :image, "写真" %><br>
+    <%= f.file_field :image, accept: "image/*" %>
+  </div>
+
+  <div style="display:flex; gap:8px;">
+    <%= f.submit "アップロードする", class: "btn" %>
+    <%= link_to "キャンセル", photos_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
