@@ -4,8 +4,17 @@
 
 <h1>写真一覧</h1>
 
+<% if flash[:notice] %>
+  <p style="color:green;"><%= flash[:notice] %></p>
+<% end %>
+
 <div>
-  <%= link_to "TweetAppと連携", oauth_authorize_url %>_
+  <% if @oauth_connected %>
+    <button
+      disabled class="btn btn-success">TweetAppと連携済み</button>
+  <% else %>
+    <%= link_to "TweetAppと連携", oauth_authorize_url %>
+  <% end %>
 </div>
 
 <div style="margin-bottom:12px;">
