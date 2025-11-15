@@ -1,11 +1,14 @@
+<div style="margin-bottom:12px;">
+  <%= button_to "ログアウト", logout_path, method: :delete, class: "btn btn-outline-danger" %>
+</div>
+
 <h1>写真一覧</h1>
 
-<div style="margin-bottom:12px;">
-  <%= link_to "写真をアップロード", new_photo_path, class: "btn btn-primary" %>
+<div>
 </div>
 
 <div style="margin-bottom:12px;">
-  <%= button_to "ログアウト", logout_path, method: :delete, class: "btn btn-outline-danger" %>
+  <%= link_to "写真をアップロード", new_photo_path, class: "btn btn-primary" %>
 </div>
 
 <div class="gallery">
