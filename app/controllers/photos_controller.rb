@@ -21,6 +21,24 @@ class PhotosController < ApplicationController
     end
   end
 
+  def tweet
+    photo = current_user.photos.find(params[:id])
+    image_url = url_for(photo.image)
+puts "DEBUG: image_url=#{image_url}"
+    access_token = session[:oauth_access_token]
+    unless access_token
+      render :index, alert: "外部サービスと連携してください" and return
+    end
+
+    service = PhotoTweetService.new(photo:, image_url:, access_token:)
+    response = service.execute
+    if response&.is_a?(Net::HTTPCreated)
+      redirect_to photos_path, notice: "連携サービスに投稿しました"
+    else
+      redirect_to photos_path, alert: "連携サービスへの投稿に失敗しました"
+    end
+  end
+
   private
 
   def photo_params

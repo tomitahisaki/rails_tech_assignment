@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  resources :photos, only: %i[index new create]
+  resources :photos, only: %i[index new create] do
+    member do
+      post :tweet
+    end
+  end
   get "oauth/callback", to: "oauth#callback"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

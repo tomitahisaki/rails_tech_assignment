@@ -8,6 +8,10 @@
   <p style="color:green;"><%= flash[:notice] %></p>
 <% end %>
 
+<% if flash[:alert] %>
+  <p style="color:red;"><%= flash[:alert] %></p>
+<% end %>
+
 <div>
   <% if @oauth_connected %>
     <button
@@ -25,9 +29,18 @@
   <% @photos.each do |photo| %>
     <div class="photo-card">
       <div class="photo-title"><%= h(photo.title) %></div>
+
       <%= image_tag photo.image,
       alt: photo.title,
       style: "width:200px;height:150px;object-fit:contain;border-radius:4px;" %>
+
+      <div style="margin-top: 8px;">
+        <%= button_to "ツイートする",
+        tweet_photo_path(photo),
+        method: :post,
+        class: "tweet-button" %>
+      </div>
+
     </div>
   <% end %>
 </div>
