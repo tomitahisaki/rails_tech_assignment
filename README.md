@@ -1,24 +1,32 @@
-# README
+# 課題
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+URL: https://github.com/tomitahisaki/rails_tech_assignment
+時間: 15~21 時間
 
-Things you may want to cover:
+# 起動方法
 
-* Ruby version
+## 1. 依存関係のインストール
 
-* System dependencies
+```bash
+bundle install
+```
 
-* Configuration
+## 2. データベースのセットアップ
 
-* Database creation
+```bash
+bin/rails db:prepare
+bin/rails db:seed
+```
 
-* Database initialization
+## 3. Rails サーバーの起動
 
-* How to run the test suite
+```bash
+bin/rails server
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## 4. ログイン確認
 
-* Deployment instructions
+ブラウザで `http://localhost:3000` にアクセスし、以下の情報でログインできることを確認：
 
-* ...
+- Email: test@example.com
+- Password: password
