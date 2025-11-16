@@ -18,7 +18,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "POST /login 失敗の場合" do
     post login_path, params: { email: @user.email, password: "wrongpassword" }
     assert_response 422
-    assert_equal "メールアドレスまたはパスワードが違います", flash[:alert]
+    assert_includes @response.body, "メールアドレスまたはパスワードが違います"
   end
 
   test "DELETE /logout ログアウト" do
