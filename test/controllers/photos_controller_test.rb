@@ -1,4 +1,16 @@
 require "test_helper"
+require "minitest/mock"
+
+# テスト用に OauthController#get_access_token を上書きする
+class ::OauthController
+  private
+
+  def get_access_token(code)
+    # 本番では外部APIを叩いていたが、
+    # テストでは固定値を返すようにする
+    "dummy-token-123"
+  end
+end
 
 class PhotosControllerTest < ActionDispatch::IntegrationTest
   def setup
@@ -7,6 +19,10 @@ class PhotosControllerTest < ActionDispatch::IntegrationTest
       password: "password123",
       password_confirmation: "password123"
     )
+
+    @photo = Photo.new(title: "Test Photo", user: @user)
+    attach_image(@photo)
+    @photo.save!
   end
 
   test "GET /photos 未ログインは /photos にアクセスできずリダイレクト" do
@@ -64,6 +80,65 @@ class PhotosControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
     assert_includes response.body, "画像を添付してください"
+  end
+
+  test "POST /photos/:id/tweet 成功系: 201なら成功メッセージを表示" do
+    log_in_as(@user)
+    # access_token をセッションにセットするために OAuth コールバックを実行
+    get oauth_callback_path, params: { code: "auth-code-xyz" }
+
+    fake_response = Net::HTTPCreated.new("1.1", "201", "Created")
+
+    # execute だけ持ったシンプルな偽サービスオブジェクト
+    fake_service = Object.new
+    def fake_service.execute
+      @response
+    end
+    fake_service.instance_variable_set(:@response, fake_response)
+
+    PhotoTweetService.stub :new, ->(*args, **kwargs) { fake_service } do
+      post tweet_photo_path(@photo)
+
+      assert_redirected_to photos_path
+
+      follow_redirect! # redirect先に移動
+      assert_includes response.body, "連携サービスに投稿しました"
+    end
+  end
+
+  test "POST /photos/:id/tweet 異常系: access_token が無い場合は連携を促すメッセージ" do
+    log_in_as(@user)
+    # OAuth callback を呼ばない → session[:oauth_access_token] は nil のまま
+
+    post tweet_photo_path(@photo)
+
+    assert_redirected_to photos_path
+
+    follow_redirect!
+    assert_includes response.body, "外部サービスと連携してください"
+  end
+
+  test "POST /photos/:id/tweet 異常系: サービスが201以外なら失敗メッセージ" do
+    log_in_as(@user)
+    # OAuth 連携して access_token セット
+    get oauth_callback_path, params: { code: "auth-code-xyz" }
+
+    fake_response = Net::HTTPBadRequest.new("1.1", "400", "Bad Request")
+
+    fake_service = Object.new
+    def fake_service.execute
+      @response
+    end
+    fake_service.instance_variable_set(:@response, fake_response)
+
+    PhotoTweetService.stub :new, ->(*args, **kwargs) { fake_service } do
+      post tweet_photo_path(@photo)
+
+      assert_redirected_to photos_path
+
+      follow_redirect!
+      assert_includes response.body, "連携サービスへの投稿に失敗しました"
+    end
   end
 
   private
