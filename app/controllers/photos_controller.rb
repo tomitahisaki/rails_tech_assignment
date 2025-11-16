@@ -11,9 +11,8 @@ class PhotosController < ApplicationController
   end
 
   def create
-    @photo = current_user.photos.new(photo_params)
-    if @photo.valid?
-      @photo.save
+    @photo = Photo.new(photo_params.merge(user: current_user))
+    if @photo.save
       redirect_to photos_path, notice: "写真をアップロードしました"
     else
       @errors = @photo.errors.full_messages
