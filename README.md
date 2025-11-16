@@ -11,20 +11,34 @@ URL: https://github.com/tomitahisaki/rails_tech_assignment
 bundle install
 ```
 
-## 2. データベースのセットアップ
+## 2. 認証情報の設定
+
+認証情報を確認する場合：
+
+```bash
+bin/rails credentials:show
+```
+
+認証情報を編集する場合：
+
+```bash
+bin/rails credentials:edit
+```
+
+## 3. データベースのセットアップ
 
 ```bash
 bin/rails db:prepare
 bin/rails db:seed
 ```
 
-## 3. Rails サーバーの起動
+## 4. Rails サーバーの起動
 
 ```bash
 bin/rails server
 ```
 
-## 4. ログイン確認
+## 5. ログイン確認
 
 ブラウザで `http://localhost:3000` にアクセスし、以下の情報でログインできることを確認：
 
