@@ -1,6 +1,7 @@
 # 課題
 
 URL: https://github.com/tomitahisaki/rails_tech_assignment
+
 時間: 15~21 時間
 
 # 起動方法
